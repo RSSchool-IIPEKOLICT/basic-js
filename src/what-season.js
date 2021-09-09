@@ -1,8 +1,8 @@
-// import { NotImplementedError } from '../extensions/index.js';
-
-const m = [31,28,31,30,31,30,31,31,30,31,30,31]
+const month = [31,28,31,30,31,30,31,31,30,31,30,31]
 const error = new Error('Invalid date!')
-const getClass = arg => { return {}.toString.call(arg).slice(8, -1) }
+const getClass = arg => {
+  return {}.toString.call(arg).slice(8, -1)
+}
 
 /**
  * Extract season from given date and expose the enemy scout!
@@ -16,32 +16,29 @@ const getClass = arg => { return {}.toString.call(arg).slice(8, -1) }
  * 
  */
 export default function getSeason(date) {
-  return solution(date)
-}
+  if (date === undefined) return 'Unable to determine the time of year!'
+  if (getClass(date) !== 'Date') throw error
+  if (date[Symbol.toStringTag]) throw error
 
-function solution(d) {
-  if (d === undefined) return 'Unable to determine the time of year!'
-  if (getClass(d) !== 'Date') throw error
-  if (d[Symbol.toStringTag]) throw error
+  let y = date.getFullYear()
+  let m = date.getMonth()
+  let d = date.getDay()
 
-  let y = d.getFullYear()
-  let mon = d.getMonth()
-  let day = d.getDay()
-
-  for (let i = 0; i < m.length; i++) {
-    if (mon !== 12 && mon === i + 1 && day > m[i]) {
-      mon++
-    } else if (mon === 12 && mon === i + 1 && day > m[i]) {
+  for (let i = 0; i < month.length; i++) {
+    if (m !== 11 && m === i && d > month[i]) m++
+    else if (m === 11 && m === i && d > month[i]) {
       y++
-      mon = 1
+      m = 1
     }
   }
 
-  if (!((y % 4) || (!(y % 100) && (y % 400))) && mon === 2 && day === 28) mon++
+  if (!((y % 4) || (!(y % 100) && (y % 400))) && m === 1 && d === 28) m++
 
-  if (mon === 11 || mon < 2) return 'winter'
-  else if (mon < 5) return 'spring'
-  else if (mon < 8) return 'summer'
-
-  return 'autumn'
+  switch (Math.ceil((m + 2) / 3)) {
+    case 1:
+    case 5: return 'winter'
+    case 2: return 'spring'
+    case 3: return 'summer'
+    case 4: return 'autumn'
+  }
 }
