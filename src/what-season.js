@@ -1,6 +1,6 @@
 const month = [31,28,31,30,31,30,31,31,30,31,30,31]
 const error = new Error('Invalid date!')
-const getClass = arg => {
+export const getClass = arg => {
   return {}.toString.call(arg).slice(8, -1)
 }
 

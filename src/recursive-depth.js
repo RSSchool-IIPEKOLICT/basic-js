@@ -1,4 +1,4 @@
-import { NotImplementedError } from '../extensions/index.js';
+import {getClass} from './what-season.js'
 
 /**
  * Implement class DepthCalculator with method calculateDepth
@@ -13,8 +13,7 @@ import { NotImplementedError } from '../extensions/index.js';
  *
  */
 export default class DepthCalculator {
-  calculateDepth(/* arr */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  calculateDepth(arr) {
+    return (getClass(arr) === 'Array') ? 1 + Math.max(0, ...arr.map(v => this.calculateDepth(v))) : 0
   }
 }
