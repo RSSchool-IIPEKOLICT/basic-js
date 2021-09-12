@@ -8,7 +8,7 @@ const cheaper = (m, s, encrypt) => {
   const indexArray = message.map(v => (alphabet.indexOf(v) !== -1) ? alphabet.indexOf(v) : 999)
 
   const secretArray = indexArray
-    .map((v, i) => {
+    .map(v => {
       if (v !== 999) {
         j++
         return secret[j % secret.length]
