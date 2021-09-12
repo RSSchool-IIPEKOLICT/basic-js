@@ -14,36 +14,23 @@
  *
  */
 export default function repeater(str, options) {
-  if (options === undefined || !options.repeatTimes) {
-    if (options.addition) return str + options.addition
-    else if (options.addition === null) return str + 'null'
-    else if (options.addition === false) return str + 'false'
-  }
-
-  const stock = str
+  if (!options.separator) options.separator = '+'
+  if (!options.repeatTimes) options.repeatTimes = 1
+  if (options.addition === undefined) options.addition = ''
+  if (!options.additionRepeatTimes) options.additionRepeatTimes = 1
+  if (!options.additionSeparator) options.additionSeparator = '|'
+  let res = '' + str
 
   for (let i = 0; i < options.repeatTimes; i++) {
-    if (options.additionRepeatTimes) {
-      for (let j = 0; j < options.additionRepeatTimes; j++) {
-        str += (options.addition) ? options.addition : ''
-        if (options.addition === null) str += 'null'
-        if (options.addition === false) str += 'false'
-
-        if (j < options.additionRepeatTimes - 1) {
-          str += (options.additionSeparator) ? options.additionSeparator : '|'
-        }
-      }
-    } else {
-      str += (options.addition) ? options.addition : ''
-      if (options.addition === null) str += 'null'
-      if (options.addition === false) str += 'false'
+    for (let j = 0; j < options.additionRepeatTimes; j++) {
+      res += options.addition
+      if (j < options.additionRepeatTimes - 1) res += options.additionSeparator
     }
-
     if (i < options.repeatTimes - 1) {
-      str += (options.separator) ? options.separator : '+'
-      str += stock
+      res += options.separator
+      res += str
     }
   }
 
-  return str
+  return res
 }
